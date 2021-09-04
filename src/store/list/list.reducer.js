@@ -68,10 +68,17 @@ const removeItem = ({ state, type, name, parentUnit, parentChapter }) => {
 
 const identLeft = ({ state, type, name, parentUnit, parentChapter }) => {
     if (type === 'unit') {
+        const Units = Object.keys(state[parentChapter]);
+        const index = Units.findIndex(item => item === name);
         state[name] = {}; //creating a new chapter with same name as unit
         state[parentChapter][name].forEach(item => {
-            state[name][item] = []; //adding each topic inside usint as unit
+            state[name][item] = []; //adding each topic inside uint as unit
         });
+        //now add all the unit under this unit as it unit
+        for (let i = index+1; i < Units.length; i++) {
+            state[name][Units[i]] = [...state[parentChapter][Units[i]]];
+            delete state[parentChapter][Units[i]];
+        }
         delete state[parentChapter][name];
         return { ...state };
     }
@@ -100,7 +107,7 @@ const identRight = ({ state, type, name, parentUnit, parentChapter }) => {
             state[prevChapter][name] = []; //added this chapter as unit in prevChapter
             Object.keys(state[name]).forEach(unit => {
                 state[prevChapter][name].push(unit); //added units as topics in prevChapter
-                state[prevChapter][name] = [...state[prevChapter][name], ...state[name][unit]];//merged chapters
+                state[prevChapter][name] = [...state[prevChapter][name], ...state[name][unit]];//merged units and topics
             });
             delete state[name];
             return { ...state };

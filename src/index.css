@@ -19,7 +19,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   padding: 16px;
   width: min(1200px, 100%);
-  margin:auto;
+  min-width: 800px;
+  margin: auto;
 }
 
 code {

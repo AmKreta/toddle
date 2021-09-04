@@ -72,13 +72,13 @@ export const setList = (payload) => {
 }
 
 function isValid(obj) {
-    if (Object.prototype.toString.call(obj) == '[object Object]') {
+    if (Object.prototype.toString.call(obj) === '[object Object]') {
         Object.keys(obj).forEach(chapter => {
             //checking if every chapter is object
-            if (Object.prototype.toString.call(chapter) == '[object Object]') {
+            if (Object.prototype.toString.call(chapter) === '[object Object]') {
                 Object.keys(chapter).forEach(unit => {
                     //checking if every unit is array
-                    if (Object.prototype.toString.call(unit) == '[object Array]') {
+                    if (Object.prototype.toString.call(unit) === '[object Array]') {
                         unit.forEach(topic => {
                             //checking if every topic is string
                             if (typeof topic !== 'string') {

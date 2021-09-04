@@ -40,7 +40,13 @@ const Header = () => {
         if (file) {
             let fileReader = new FileReader();
             fileReader.addEventListener('load', e => {
-                dispatch(setList((JSON.parse(e.target.result))));
+                try{
+                    let data = (JSON.parse(e.target.result));
+                    dispatch(setList(data));
+                }
+                catch(err){
+                    alert('cant convert file content to json, err:- invalid file format');
+                }
             });
             fileReader.readAsText(file);
         }
@@ -57,8 +63,8 @@ const Header = () => {
                 <span>
                     {
                         [
-                            { icon: AiOutlineUpload, helper: 'import', onClick: importHandler },
-                            { icon: AiOutlineDownload, helper: 'export', onClick: exportHandler },
+                            { icon: AiOutlineUpload, helper: 'load', onClick: importHandler },
+                            { icon: AiOutlineDownload, helper: 'save', onClick: exportHandler },
                             { icon: FiRefreshCw, helper: 'refresh', onClick: refreshHandler }
                         ].map(({ icon, helper, onClick }, index) => <IconButton key={index} icon={icon} helper={helper} helperDown onClick={onClick} />)
                     }
