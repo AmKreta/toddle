@@ -1,4 +1,4 @@
-import { MOVE_START, MOVE_END, IDENT_LEFT, IDENT_RIGHT, ADD, REMOVE } from './list.actionType';
+import { MOVE_START, MOVE_END, IDENT_LEFT, IDENT_RIGHT, ADD, REMOVE, RESET_LIST, SET_LIST } from './list.actionType';
 
 const initialState = {};
 
@@ -100,7 +100,7 @@ const identRight = ({ state, type, name, parentUnit, parentChapter }) => {
             state[prevChapter][name] = []; //added this chapter as unit in prevChapter
             Object.keys(state[name]).forEach(unit => {
                 state[prevChapter][name].push(unit); //added units as topics in prevChapter
-                state[prevChapter][name].concat(state[name][unit]);//merged chapters
+                state[prevChapter][name] = [...state[prevChapter][name], ...state[name][unit]];//merged chapters
             });
             delete state[name];
             return { ...state };
@@ -136,6 +136,8 @@ const reducer = (state = initialState, action) => {
         case IDENT_RIGHT: return identRight({ state, ...action.payload });
         case ADD: return addNewItem({ state, ...action.payload });
         case REMOVE: return removeItem({ state, ...action.payload });
+        case RESET_LIST: return initialState;
+        case SET_LIST: return { ...action.payload };
         default: return state;
     }
 }

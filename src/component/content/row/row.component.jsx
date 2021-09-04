@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { IconContext } from 'react-icons';
 import { IoMdMove } from 'react-icons/io';
 import { ImArrowLeft2, ImArrowRight2, ImBin } from 'react-icons/im';
 import { remove, increaseIdentLevel, decreaseIdentLevel, identLeft, identRight, updateParentChapter, updateParentUnit } from '../../../actions/actions';
+import IconButton from '../../../reusableComponents/iconButton/iconButton.component';
 
 const Row = ({ disabled, name, type, parentUnit, parentChapter }) => {
 
@@ -60,13 +60,7 @@ const Row = ({ disabled, name, type, parentUnit, parentChapter }) => {
                         { icon: ImArrowLeft2, helper: 'ident', onClick: identLeftHandler },
                         { icon: ImArrowRight2, helper: 'ident', onClick: identRightHandler },
                         { icon: ImBin, helper: 'delete', onClick: deleteHandler }
-                    ].map(({ icon, helper, onClick }, index) => (
-                        <Button helper={helper} key={index} onClick={onClick}>
-                            <IconContext.Provider key={index} value={{ className: 'iconButton' }}>
-                                {icon({ size: '20px' })}
-                            </IconContext.Provider>
-                        </Button>
-                    ))
+                    ].map(({ icon, helper, onClick }, index) => (<IconButton helper={helper} key={index} onClick={onClick} icon={icon} />))
                 }
             </div>
             <div className="ident">
@@ -140,43 +134,6 @@ const Container = styled.div`
             `
         : null
     }
-`;
-
-const Button = styled.div`
-    position: relative;
-    margin: 8px 0;
-
-    &:hover {
-        &::before{
-            content: '${props => props.helper}';
-            clip-path: polygon(0 15%, 100% 15%, 99% 85%, 59% 85%, 50% 100%, 38% 85%, 0 85%);
-            padding: 16px;
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color:${props => props.theme.text.dark};
-            color: white;
-            z-index: 3;
-            border-radius: 3px;
-            box-shadow: 0 0 3px ${props => props.theme.text.dark};
-        }
-    }
-
-    &>.iconButton{
-        color:${props => props.theme.text.light};
-        margin: 0 4px;
-        
-        &:first - child{
-            transform: scale(1.1);
-        }
-        
-        &:hover{
-            cursor: pointer;
-            color:${props => props.theme.secondary};
-        }
-    }
-}
 `;
 
 export default Row;
